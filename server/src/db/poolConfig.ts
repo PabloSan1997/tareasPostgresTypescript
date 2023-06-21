@@ -15,8 +15,9 @@ export async function crearTablas(){
             id SERIAL PRIMARY KEY,
             nombre VARCHAR(50) NOT NULL,
             estado BOOLEAN default false,
-            fecha DATE NOT NULL 
-        );`;
+            fecha DATE NOT NULL,
+            hora VARCHAR(5)
+        )`;
         await pool.query(query);
         console.log("Conectado a la base de datos");
     } catch (error) {
