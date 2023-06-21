@@ -1,14 +1,28 @@
 import React from 'react'
-import { useParams } from 'react-router-dom';
 import { Header } from './Header';
 import { Buscador } from './Buscador';
 import { Formulario } from './Formulario';
 import { TareasContexto } from '../context';
 import { Tarea } from './Tarea';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export function Contenedor(): JSX.Element {
-    const { modo } = useParams();
     const { tareas } = TareasContexto();
+    const {modo}= useParams();
+    const navegar = useNavigate();
+    const opcionciones={
+        opcion_hacer:'hacer',
+        opcion_hechas:'hechas'
+    };
+    let mostrarTareas:TareasRes[]=[];
+    if(modo===opcionciones.opcion_hacer){
+        mostrarTareas=tareas.filter(elemento=>!elemento.estado);
+    }
+    else if(opcionciones.opcion_hechas===modo){
+        mostrarTareas=tareas.filter(elemento=>elemento.estado);
+    }else{
+        navegar('/notFound');
+    }
     return (
         <React.Fragment>
             <Header />
@@ -17,7 +31,7 @@ export function Contenedor(): JSX.Element {
                 <div className='h-full w-3/4 flex flex-col'>
                 <Buscador />
                     <div className='w-full grid grid-cols-3 gap-3 auto-rows-[35%] overflow-y-auto h-[85%] pb-2'>
-                    {tareas.map(elemento => (
+                    {mostrarTareas.map(elemento => (
                         <Tarea key={elemento.id} {...elemento} />
                     ))}
                     </div>

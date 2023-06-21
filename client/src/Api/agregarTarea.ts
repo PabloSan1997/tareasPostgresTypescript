@@ -3,7 +3,7 @@ import axios from "axios";
 
 export async function agregarTarea(tarea: TareasPost) {
     try {
-      const data =  await axios.post(
+        await axios.post(
             import.meta.env.VITE_URL_API,
             tarea,
             {
@@ -12,11 +12,11 @@ export async function agregarTarea(tarea: TareasPost) {
                     cabeza: 'pasele'
                 }
             });
-           window.location.reload();
+        window.location.reload();
     } catch (error) {
-        const {request} = error as {request:{responseText:string}};
-        if(request){
-            const {message} = JSON.parse(request.responseText);
+        const { request } = error as { request: { responseText: string } };
+        if (request) {
+            const { message } = JSON.parse(request.responseText);
             alert(message);
         }
     }
